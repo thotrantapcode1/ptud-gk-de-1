@@ -1,0 +1,189 @@
+/* Reset mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Toàn bộ trang */
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+/* Tiêu đề */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #222;
+}
+
+/* Phần chào user */
+p {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Form thêm bài viết */
+#add-post {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+#add-post input,
+#add-post textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#add-post button {
+    background: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+#add-post button:hover {
+    background: #218838;
+}
+
+/* Danh sách bài viết */
+.posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Card bài viết */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin: 0 auto;
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    color: #333;
+}
+
+.card p {
+    color: #666;
+}
+
+/* Button Follow/Unfollow */
+.card form {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.card button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.card button:hover {
+    background: #0056b3;
+}
+
+/* Button Xóa (admin) */
+.card form[action^="/delete"] button {
+    background: #dc3545;
+}
+
+.card form[action^="/delete"] button:hover {
+    background: #c82333;
+}
+
+/* Bình luận */
+.card ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.card ul li {
+    background: #f1f1f1;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.card ul li b {
+    color: #333;
+}
+
+/* Form bình luận */
+.card form[action^="/comment"] input {
+    width: calc(100% - 80px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.card form[action^="/comment"] button {
+    background: #17a2b8;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+}
+
+.card form[action^="/comment"] button:hover {
+    background: #138496;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card button {
+        width: 100%;
+    }
+}

@@ -22,8 +22,10 @@
     <div class="posts">
         <% posts.forEach(post => { %>
             <div class="card">
-                <img src="<%= post.image_url %>" alt="Ảnh bài viết">
                 <h2><%= post.title %></h2>
+                <p>
+                <img src="<%= post.image_url %>" alt="Ảnh bài viết">
+                </p>
                 <p><%= post.content %></p>
                 <% if (user) { %>
                     <form action="/follow/<%= post.id %>" method="POST">
