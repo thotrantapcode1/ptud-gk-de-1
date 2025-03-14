@@ -12,3 +12,6 @@
 - hoặc
 - node server.js
 - Mở trình duyệt và truy cập vào địa chỉ: http://localhost:3000
+
+# Note:
+Để chạy chức năng admin, dùng tài khoản có username và mật khẩu là "admin".
