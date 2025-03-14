@@ -72,14 +72,56 @@ function checkAdmin(req, res, next) {
     next();
 }
 
-// Trang chính - Hiển thị bài viết và bình luận
-app.get("/", (req, res) => {
-    db.all("SELECT * FROM posts", [], (err, posts) => {
-        db.all("SELECT comments.*, users.username FROM comments JOIN users ON comments.user_id = users.id", [], (err, comments) => {
-            res.render("index", { posts, comments, user: req.session.user });
+app.get("/", checkAuth, (req, res) => {
+    const userId = req.session.user ? req.session.user.id : null;
+
+    // Lấy danh sách tất cả bài viết
+    const postsQuery = "SELECT * FROM posts";
+
+    // Lấy danh sách tất cả bình luận cùng với tên người dùng
+    const commentsQuery = `
+        SELECT comments.*, users.username 
+        FROM comments 
+        JOIN users ON comments.user_id = users.id
+    `;
+
+    // Nếu có user đăng nhập, lấy danh sách bài viết mà user đã follow
+    const followsQuery = `
+        SELECT post_id FROM follows WHERE user_id = ?
+    `;
+
+    db.all(postsQuery, [], (err, posts) => {
+        if (err) return res.send("Lỗi lấy bài viết");
+
+        db.all(commentsQuery, [], (err, comments) => {
+            if (err) return res.send("Lỗi lấy bình luận");
+
+            if (userId) {
+                db.all(followsQuery, [userId], (err, followedPosts) => {
+                    if (err) return res.send("Lỗi lấy danh sách follow");
+
+                    // Chuyển danh sách follow thành một mảng ID
+                    const followedPostIds = followedPosts.map(f => f.post_id);
+
+                    res.render("index", {
+                        user: req.session.user,
+                        posts,
+                        comments,
+                        followedPostIds, // Danh sách bài viết mà user đã follow
+                    });
+                });
+            } else {
+                res.render("index", {
+                    user: null,
+                    posts,
+                    comments,
+                    followedPostIds: [],
+                });
+            }
         });
     });
 });
+
 
 // Hiển thị trang đăng ký
 app.get("/register", (req, res) => {
@@ -160,6 +202,8 @@ app.post("/follow/:id", checkAuth, (req, res) => {
         }
     });
 });
+
+
 
 
 // Thêm bình luận

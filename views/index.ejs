@@ -25,9 +25,16 @@
                 <img src="<%= post.image_url %>" alt="Ảnh bài viết">
                 <h2><%= post.title %></h2>
                 <p><%= post.content %></p>
-                <form action="/follow/<%= post.id %>" method="POST">
-                    <button type="submit">Follow (<%= post.follows %>)</button>
-                </form>
+                <% if (user) { %>
+                    <form action="/follow/<%= post.id %>" method="POST">
+                        <% let isFollowing = followedPostIds.includes(post.id); %>
+                        <button type="submit">
+                            <%= isFollowing ? "Unfollow" : "Follow" %> (<%= post.follows %>)
+                        </button>
+                    </form>
+                <% } else { %>
+                    <p><a href="/login">Đăng nhập</a> để follow bài viết.</p>
+                <% } %>
                 <% if (user && user.role === "admin") { %>
                     <form action="/delete-post/<%= post.id %>" method="POST">
                         <button type="submit">Xóa bài viết</button>
