@@ -150,13 +150,13 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
     const { username, password } = req.body;
     db.get("SELECT * FROM users WHERE username = ?", [username], (err, user) => {
-        if (!user) return res.send("Sai tài khoản hoặc mật khẩu!");
+        if (!user) return res.render("error")
         bcrypt.compare(password, user.password, (err, result) => {
             if (result) {
                 req.session.user = user;
                 res.redirect("/");
             } else {
-                res.send("Sai tài khoản hoặc mật khẩu!");
+                res.render("error")
             }
         });
     });
@@ -170,7 +170,7 @@ app.get("/logout", (req, res) => {
 // Thêm bài viết
 app.post("/add", checkAuth, (req, res) => {
     const { title, content } = req.body;
-    const imageUrl = `https://picsum.photos/300/200?random=${Math.random()}`;
+    const imageUrl = `https://picsum.photos/seed/${Math.random()}/300/200`;
     db.run("INSERT INTO posts (title, content, image_url) VALUES (?, ?, ?)", [title, content, imageUrl], () => {
         res.redirect("/");
     });
@@ -186,7 +186,7 @@ app.post("/follow/:id", checkAuth, (req, res) => {
         if (row) {
             // Nếu đã follow -> Unfollow (xóa khỏi bảng follows, giảm số follow)
             db.run("DELETE FROM follows WHERE user_id = ? AND post_id = ?", [userId, id], (err) => {
-                if (err) return res.send("Có lỗi xảy ra!");
+                if (err) return res.render("error");
                 db.run("UPDATE posts SET follows = follows - 1 WHERE id = ?", [id], () => {
                     res.redirect("/");
                 });
@@ -194,7 +194,7 @@ app.post("/follow/:id", checkAuth, (req, res) => {
         } else {
             // Nếu chưa follow -> Follow (thêm vào bảng follows, tăng số follow)
             db.run("INSERT INTO follows (user_id, post_id) VALUES (?, ?)", [userId, id], (err) => {
-                if (err) return res.send("Có lỗi xảy ra!");
+                if (err) return res.render("error");
                 db.run("UPDATE posts SET follows = follows + 1 WHERE id = ?", [id], () => {
                     res.redirect("/");
                 });

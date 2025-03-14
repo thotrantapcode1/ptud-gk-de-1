@@ -57,6 +57,10 @@ a:hover {
     border-radius: 5px;
 }
 
+#add-post textarea {
+    height: 100px;
+}
+
 #add-post button {
     background: #28a745;
     color: white;
