@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Blog</h1>
+
+    <% if (user) { %>
+        <p>Chào, <%= user.username %>! <a href="/logout">Đăng xuất</a></p>
+        <form action="/add" method="POST" id="add-post">
+            <input type="text" name="title" placeholder="Tiêu đề" required>
+            <textarea name="content" placeholder="Nội dung" required></textarea>
+            <button type="submit">Thêm bài viết</button>
+        </form>
+    <% } else { %>
+        <p><a href="/login">Đăng nhập</a> để thêm bài viết.</p>
+    <% } %>
+
+    <div class="posts">
+        <% posts.forEach(post => { %>
+            <div class="card">
+                <img src="<%= post.image_url %>" alt="Ảnh bài viết">
+                <h2><%= post.title %></h2>
+                <p><%= post.content %></p>
+                <form action="/follow/<%= post.id %>" method="POST">
+                    <button type="submit">Follow (<%= post.follows %>)</button>
+                </form>
+                <% if (user && user.role === "admin") { %>
+                    <form action="/delete-post/<%= post.id %>" method="POST">
+                        <button type="submit">Xóa bài viết</button>
+                    </form>
+                <% } %>
+
+                <h3>Bình luận:</h3>
+                <ul>
+                    <% comments.filter(c => c.post_id === post.id).forEach(comment => { %>
+                        <li><b><%= comment.username %>:</b> <%= comment.content %>
+                            <% if (user && user.role === "admin") { %>
+                                <form action="/delete-comment/<%= comment.id %>" method="POST" style="display:inline;">
+                                    <button type="submit">Xóa</button>
+                                </form>
+                            <% } %>
+                        </li>
+                    <% }) %>
+                </ul>
+
+                <!-- Form thêm bình luận -->
+                <% if (user) { %>
+                    <form action="/comment/<%= post.id %>" method="POST">
+                        <input type="text" name="content" placeholder="Viết bình luận..." required>
+                        <button type="submit">Gửi</button>
+                    </form>
+                <% } else { %>
+                    <p><a href="/login">Đăng nhập</a> để bình luận.</p>
+                <% } %>
+
+            </div>
+        <% }) %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Quản Lý Bài Viết</title>
+    <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+    <h2>Trang Quản Trị</h2>
+    <h3>Danh Sách Bài Viết</h3>
+    <ul>
+        <% posts.forEach(post => { %>
+            <li>
+                <strong><%= post.title %></strong> - <%= post.author %>
+                <form action="/admin/delete/<%= post.id %>" method="POST" style="display:inline;">
+                    <button type="submit">Xóa</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+    <a href="/">Quay lại trang chủ</a>
+</body>
+</html>
