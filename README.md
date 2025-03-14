@@ -4,6 +4,10 @@
 # STT: 58
 # Tiến độ hoàn thành 
 - Câu a, câu b, câu c (Card-Based), câu d (follow)
+# Thông tin project
+-  Xây dựng một blog với hai tác nhân (actor, user) có chức năng bình luận
+-  Frontend: Card-Based
+-  Thêm chức năng: Follow bài viết
 # Hướng dẫn run:
 - Mở thư mục dự án
 - Mở Terminal
