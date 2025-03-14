@@ -1,7 +1,9 @@
 # ptud-gk-de-1
 # MSSV: 22653431 
 # Họ và tên: Trần Phú Thọ
-
+# STT: 58
+# Tiến độ hoàn thành 
+- Câu a, câu b, câu c (Card-Based), câu d (follow)
 # Hướng dẫn run:
 - Mở thư mục dự án
 - Mở Terminal
